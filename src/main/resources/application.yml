@@ -6,7 +6,7 @@ spring:
     # url: jdbc:postgresql://${POSTGRES_HOST:localhost}:${POSTGRES_PORT:5432}/${POSTGRES_DB:user_service_db}
     # username: ${POSTGRES_USER:user_service}
     # password: ${POSTGRES_PASSWORD:user_service_password}
-    url: ${DATABASE_URL}
+    url: ${SPRING_DATASOURCE_URL}
 
   flyway:
     baseline-on-migrate: true
