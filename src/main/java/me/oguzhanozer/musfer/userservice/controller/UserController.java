@@ -8,11 +8,10 @@ import me.oguzhanozer.musfer.userservice.entity.User;
 import me.oguzhanozer.musfer.userservice.mapper.UserMapper;
 import me.oguzhanozer.musfer.userservice.service.UserService;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 @RestController
 @RequestMapping("/users")
@@ -21,9 +20,6 @@ public class UserController {
 
     private final UserService userService;
     private final UserMapper userMapper;
-
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
 
     @PostMapping
     public ResponseEntity<UserResponse> createUser(@RequestBody @Valid UserCreateRequest userCreateRequest) {
@@ -37,8 +33,14 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(userMapper.toResponse(user));
     }
 
-    @GetMapping("/current-db")
-    public String currentDatabase() {
-        return jdbcTemplate.queryForObject("SELECT current_database()", String.class);
+    @GetMapping("/testgw")
+    public String getUser(@RequestParam String url) {
+        RestTemplate restTemplate = new RestTemplate();
+        try {
+            // Send GET request to the provided URL
+            return restTemplate.getForObject(url, String.class);
+        } catch (Exception e) {
+            return "Network test failed: " + e.getMessage();
+        }
     }
 }
