@@ -32,15 +32,4 @@ public class UserController {
         User user = userService.getUser(id);
         return ResponseEntity.status(HttpStatus.OK).body(userMapper.toResponse(user));
     }
-
-    @GetMapping("/testgw")
-    public String getUser(@RequestParam String url) {
-        RestTemplate restTemplate = new RestTemplate();
-        try {
-            // Send GET request to the provided URL
-            return restTemplate.getForObject(url, String.class);
-        } catch (Exception e) {
-            return "Network test failed: " + e.getMessage();
-        }
-    }
 }
